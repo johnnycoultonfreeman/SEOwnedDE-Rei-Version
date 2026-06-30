@@ -9,7 +9,6 @@
 
 void CTriggerbot::Run(CUserCmd* pCmd)
 {
-	if (!CFG::Triggerbot_Active || (CFG::Triggerbot_Key && !H::Input->IsDown(CFG::Triggerbot_Key)))
 		return;
 
 	const auto pLocal = H::Entities->GetLocal();
