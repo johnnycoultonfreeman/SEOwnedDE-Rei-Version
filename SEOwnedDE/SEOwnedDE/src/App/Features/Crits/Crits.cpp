@@ -83,8 +83,6 @@ void CCrits::Run(CUserCmd* pCmd)
 		{
 			return;
 		}
-
-		if (H::Input->IsDown(CFG::Exploits_Crits_Force_Crit_Key_Melee))
 		{
 			bool wantCrit = true;
 
@@ -123,7 +121,6 @@ void CCrits::Run(CUserCmd* pCmd)
 	// Hitscan crits
 	else
 	{
-		if (H::Input->IsDown(CFG::Exploits_Crits_Force_Crit_Key))
 		{
 			pCmd->command_number = FindCritCmd(pCmd, pWeapon, true);
 		}
