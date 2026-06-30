@@ -302,49 +302,46 @@ void CAimbotMelee::Run(CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeaponBase* pWeap
 	if (Shifting::bShifting && !Shifting::bShiftingWarp)
 		return;
 
-	const bool isFiring = IsFiring(pCmd, pWeapon);
-
 	MeleeTarget_t target = {};
+
 	if (GetTarget(pLocal, pWeapon, target) && target.Entity)
 	{
-			G::nTargetIndex = target.Entity->entindex();
+		G::nTargetIndex = target.Entity->entindex();
 
-			// Auto shoot
-				if (ShouldFire(target))
-				{
-					HandleFire(pCmd, pWeapon);
-				}
-			}
+		// Auto shoot
+		if (ShouldFire(target))
+		{
+			HandleFire(pCmd, pWeapon);
+		}
 
-			const bool bIsFiring = IsFiring(pCmd, pWeapon);
-			G::bFiring = bIsFiring;
+		const bool bIsFiring = IsFiring(pCmd, pWeapon);
+		G::bFiring = bIsFiring;
 
-			// Are we ready to aim?
-			if (ShouldAim(pCmd, pWeapon) || bIsFiring)
+		// Are we ready to aim?
+		if (ShouldAim(pCmd, pWeapon) || bIsFiring)
+		{
+			Aim(pCmd, pLocal, pWeapon, target.AngleTo);
+
+			if (CFG::Misc_Accuracy_Improvements)
 			{
-					Aim(pCmd, pLocal, pWeapon, target.AngleTo);
-				
-				if (CFG::Misc_Accuracy_Improvements)
+				if (bIsFiring && target.Entity->GetClassId() == ETFClassIds::CTFPlayer)
 				{
-					if (bIsFiring && target.Entity->GetClassId() == ETFClassIds::CTFPlayer)
-					{
-						pCmd->tick_count = TIME_TO_TICKS(target.SimulationTime + SDKUtils::GetLerp());
-					}
-				}
-				else
-				{
-					if (bIsFiring && target.LagRecord)
-					{
-						pCmd->tick_count = TIME_TO_TICKS(target.SimulationTime + GetClientInterpAmount());
-					}
+					pCmd->tick_count = TIME_TO_TICKS(target.SimulationTime + SDKUtils::GetLerp());
 				}
 			}
-
-			// Walk to target
-			if (CFG::Aimbot_Melee_Walk_To_Target && (pLocal->m_fFlags() & FL_ONGROUND))
+			else
 			{
-				SDKUtils::WalkTo(pCmd, pLocal->m_vecOrigin(), target.Position, 1.f);
+				if (bIsFiring && target.LagRecord)
+				{
+					pCmd->tick_count = TIME_TO_TICKS(target.SimulationTime + GetClientInterpAmount());
+				}
 			}
+		}
+
+		// Walk to target
+		if (CFG::Aimbot_Melee_Walk_To_Target && (pLocal->m_fFlags() & FL_ONGROUND))
+		{
+			SDKUtils::WalkTo(pCmd, pLocal->m_vecOrigin(), target.Position, 1.f);
 		}
 	}
 }
