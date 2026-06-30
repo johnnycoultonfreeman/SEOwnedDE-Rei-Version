@@ -307,14 +307,9 @@ void CAimbotMelee::Run(CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeaponBase* pWeap
 	MeleeTarget_t target = {};
 	if (GetTarget(pLocal, pWeapon, target) && target.Entity)
 	{
-		const auto aimKeyDown = H::Input->IsDown(CFG::Aimbot_Key) || CFG::Aimbot_Melee_Always_Active;
-		if (aimKeyDown || isFiring)
-		{
 			G::nTargetIndex = target.Entity->entindex();
 
 			// Auto shoot
-			if (aimKeyDown)
-			{
 				if (ShouldFire(target))
 				{
 					HandleFire(pCmd, pWeapon);
@@ -327,11 +322,8 @@ void CAimbotMelee::Run(CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeaponBase* pWeap
 			// Are we ready to aim?
 			if (ShouldAim(pCmd, pWeapon) || bIsFiring)
 			{
-				if (aimKeyDown)
-				{
 					Aim(pCmd, pLocal, pWeapon, target.AngleTo);
-				}
-
+				
 				if (CFG::Misc_Accuracy_Improvements)
 				{
 					if (bIsFiring && target.Entity->GetClassId() == ETFClassIds::CTFPlayer)
