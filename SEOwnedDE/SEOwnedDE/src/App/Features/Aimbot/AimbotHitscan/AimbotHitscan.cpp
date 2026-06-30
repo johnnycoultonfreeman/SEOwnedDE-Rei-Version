@@ -736,9 +736,6 @@ void CAimbotHitscan::Run(CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeaponBase* pWe
 	if (bHasTarget)
 	{
 		G::nTargetIndexEarly = target.Entity->entindex();
-
-		const auto aimKeyDown = H::Input->IsDown(CFG::Aimbot_Key);
-		if (aimKeyDown || isFiring)
 		{
 			G::nTargetIndex = target.Entity->entindex();
 
@@ -776,10 +773,7 @@ void CAimbotHitscan::Run(CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeaponBase* pWe
 			// Are we ready to aim?
 			if (ShouldAim(pCmd, pLocal, pWeapon) || bIsFiring)
 			{
-				if (aimKeyDown)
-				{
 					Aim(pCmd, pLocal, target.AngleTo);
-				}
 
 				if (CFG::Misc_Accuracy_Improvements)
 				{
