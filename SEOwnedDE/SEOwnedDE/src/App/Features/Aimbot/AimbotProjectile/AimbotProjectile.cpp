@@ -715,7 +715,7 @@ bool CAimbotProjectile::SolveTarget(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon,
 				nTargetTick += 1;*/
 
 			//[20:57]
-			//todellinen menninkäinen:
+			//todellinen menninkÃ¤inen:
 			//crazy
 			//cant u do me like kgb
 			//do the like
@@ -1300,9 +1300,6 @@ void CAimbotProjectile::Run(CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeaponBase* 
 		G::flAimbotFOV = CFG::Aimbot_Projectile_FOV;
 
 	if (Shifting::bShifting && !Shifting::bShiftingWarp)
-		return;
-
-	if (!H::Input->IsDown(CFG::Aimbot_Key))
 		return;
 
 	ProjTarget_t target = {};
